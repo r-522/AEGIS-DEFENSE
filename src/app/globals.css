@@ -1,0 +1,367 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design Token Variables ─────────────────────────────── */
+
+:root {
+  --obsidian: #0B0E12;
+  --charcoal-plate: #171B22;
+  --gunmetal: #2B323D;
+  --aegis-gold: #C8A45D;
+  --ward-cyan: #5FD7D1;
+  --ember: #D45A35;
+  --verdigris: #6FA38B;
+  --bone: #D8D0BE;
+  --ash: #8B9098;
+
+  --font-cinzel: "Cinzel", serif;
+  --font-rajdhani: "Rajdhani", sans-serif;
+  --font-inter: "Inter", sans-serif;
+}
+
+/* ── Base Reset ──────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--obsidian);
+  color: var(--bone);
+  font-family: var(--font-inter);
+  overflow-x: hidden;
+  height: 100%;
+}
+
+/* Prevent FOUC on dark bg */
+html { background: #0B0E12; }
+
+/* ── Typography ──────────────────────────────────────────── */
+
+.font-display { font-family: var(--font-cinzel) !important; }
+.font-tactical { font-family: var(--font-rajdhani) !important; }
+.font-body { font-family: var(--font-inter) !important; }
+
+/* ── Panel Primitives ────────────────────────────────────── */
+
+.aegis-panel {
+  background: linear-gradient(180deg, rgba(43, 50, 61, 0.5) 0%, rgba(23, 27, 34, 0.9) 100%);
+  border: 1px solid rgba(200, 164, 93, 0.15);
+  border-top-color: rgba(200, 164, 93, 0.25);
+  box-shadow:
+    inset 0 1px 0 rgba(200, 164, 93, 0.07),
+    0 4px 24px rgba(0, 0, 0, 0.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.aegis-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.08) 3px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.aegis-panel > * { position: relative; z-index: 1; }
+
+/* Panel with gold top accent */
+.aegis-panel-gold {
+  border-top: 2px solid var(--aegis-gold);
+}
+
+.aegis-panel-cyan {
+  border-top: 2px solid var(--ward-cyan);
+}
+
+.aegis-panel-ember {
+  border-top: 2px solid var(--ember);
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+
+.btn-primary {
+  font-family: var(--font-rajdhani);
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  background: linear-gradient(180deg, rgba(43, 50, 61, 0.9) 0%, rgba(23, 27, 34, 1) 100%);
+  border: 1px solid rgba(200, 164, 93, 0.4);
+  border-top-color: rgba(200, 164, 93, 0.6);
+  color: var(--bone);
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent, rgba(200, 164, 93, 0.05), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.3s;
+}
+
+.btn-primary:hover::after { transform: translateX(100%); }
+
+.btn-primary:hover {
+  border-color: var(--aegis-gold);
+  box-shadow: 0 0 0 1px rgba(200, 164, 93, 0.3), 0 4px 16px rgba(0, 0, 0, 0.6), 0 0 20px rgba(200, 164, 93, 0.1);
+  color: var(--aegis-gold);
+}
+
+.btn-primary:active {
+  background: rgba(43, 50, 61, 0.5);
+  transform: translateY(1px);
+}
+
+.btn-danger {
+  font-family: var(--font-rajdhani);
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  background: rgba(23, 27, 34, 1);
+  border: 1px solid rgba(212, 90, 53, 0.4);
+  border-top-color: rgba(212, 90, 53, 0.6);
+  color: var(--ash);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+}
+
+.btn-danger:hover {
+  border-color: var(--ember);
+  color: var(--ember);
+  box-shadow: 0 0 12px rgba(212, 90, 53, 0.2);
+}
+
+/* ── Stat Bars ───────────────────────────────────────────── */
+
+.stat-bar-track {
+  height: 4px;
+  background: rgba(43, 50, 61, 0.8);
+  border: 1px solid rgba(43, 50, 61, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  transition: width 0.4s ease;
+  position: relative;
+}
+
+.stat-bar-fill::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* ── HUD Elements ────────────────────────────────────────── */
+
+.hud-cluster {
+  position: absolute;
+  pointer-events: none;
+}
+
+.hud-cluster.active { pointer-events: auto; }
+
+.cooldown-arc-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Rank Badge ──────────────────────────────────────────── */
+
+.rank-badge {
+  font-family: var(--font-cinzel);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border: 1px solid var(--aegis-gold);
+  color: var(--aegis-gold);
+  background: rgba(200, 164, 93, 0.06);
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+}
+
+/* ── Input Fields ────────────────────────────────────────── */
+
+.aegis-input {
+  width: 100%;
+  background: rgba(11, 14, 18, 0.8);
+  border: 1px solid rgba(43, 50, 61, 1);
+  border-bottom-color: rgba(200, 164, 93, 0.3);
+  color: var(--bone);
+  font-family: var(--font-inter);
+  font-size: 0.875rem;
+  padding: 10px 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  letter-spacing: 0.02em;
+}
+
+.aegis-input:focus {
+  border-color: rgba(200, 164, 93, 0.5);
+  border-bottom-color: var(--aegis-gold);
+  box-shadow: 0 2px 0 0 rgba(200, 164, 93, 0.15);
+}
+
+.aegis-input::placeholder { color: var(--ash); opacity: 0.6; }
+
+/* ── Ward Circle (decoration) ────────────────────────────── */
+
+.ward-circle {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(95, 215, 209, 0.08);
+  pointer-events: none;
+}
+
+/* ── Profession Category Tab ─────────────────────────────── */
+
+.category-tab {
+  font-family: var(--font-rajdhani);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  color: var(--ash);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+
+.category-tab:hover {
+  color: var(--bone);
+  border-color: rgba(43, 50, 61, 1);
+}
+
+.category-tab.active {
+  color: var(--aegis-gold);
+  border-color: rgba(200, 164, 93, 0.4);
+  background: rgba(200, 164, 93, 0.06);
+}
+
+/* ── Scrollbar ───────────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: rgba(11, 14, 18, 0.5); }
+::-webkit-scrollbar-thumb {
+  background: rgba(43, 50, 61, 1);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(200, 164, 93, 0.4); }
+
+/* ── Damage Numbers ──────────────────────────────────────── */
+
+@keyframes damageFloat {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-40px); opacity: 0; }
+}
+
+.damage-number {
+  animation: damageFloat 1.2s ease-out forwards;
+  font-family: var(--font-rajdhani);
+  font-weight: 700;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Loading / Scan animations ───────────────────────────── */
+
+@keyframes scanPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.scan-pulse { animation: scanPulse 1.5s ease-in-out infinite; }
+
+@keyframes bootLine {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+
+.boot-line {
+  animation: bootLine 0.6s ease-out forwards;
+  height: 1px;
+  background: var(--aegis-gold);
+  opacity: 0.4;
+}
+
+/* ── Ability Cooldown Arc ────────────────────────────────── */
+
+.ability-key-badge {
+  font-family: var(--font-rajdhani);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--ash);
+  position: absolute;
+  bottom: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/* Tactical grid background */
+.tactical-grid-bg {
+  background-image:
+    linear-gradient(rgba(200, 164, 93, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200, 164, 93, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Wave Urgency ────────────────────────────────────────── */
+
+.wave-urgent {
+  animation: urgencyFlash 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes urgencyFlash {
+  from { color: var(--ember); }
+  to { color: var(--bone); }
+}
+
+/* ── Transition overlays ─────────────────────────────────── */
+
+.screen-transition-enter {
+  animation: screenEnter 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes screenEnter {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0% 0 0);
+  }
+}
